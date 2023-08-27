@@ -32,7 +32,7 @@ public class SlotValueCalculator : MonoBehaviour, ICalulateSlotValue
 
         if (transform.localPosition.y == bottomBoundary)
         {
-            stoppedSlot = "Diamonds";
+            stoppedSlot = "Diamond";
         }
         else if (transform.localPosition.y == bottomBoundary + (movementInterval * 1 * stepsPerSlot))
         {
