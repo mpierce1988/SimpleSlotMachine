@@ -32,13 +32,13 @@ public class Row : MonoBehaviour
         for (int i = 0; i < 30; i++)
         {
             // if row is at the bottom, move it to the top
-            if (transform.position.y <= -3.5f)
+            if (transform.localPosition.y <= -3.5f)
             {
-                transform.position = new Vector2(transform.position.x, 1.75f);
+                transform.localPosition = new Vector2(transform.localPosition.x, 1.75f);
             }
 
             // move row down
-            transform.position = new Vector2(transform.position.x, transform.position.y - 0.25f);
+            transform.localPosition = new Vector2(transform.localPosition.x, transform.localPosition.y - 0.25f);
 
             yield return new WaitForSeconds(timeInterval);
         }
@@ -61,13 +61,13 @@ public class Row : MonoBehaviour
         for (int i = 0; i < randomValue; i++)
         {
             // if row is at the bottom, move it to the top
-            if (transform.position.y <= -3.5f)
+            if (transform.localPosition.y <= -3.5f)
             {
-                transform.position = new Vector2(transform.position.x, 1.75f);
+                transform.localPosition = new Vector2(transform.localPosition.x, 1.75f);
             }
 
             // move row down
-            transform.position = new Vector2(transform.position.x, transform.position.y - 0.25f);
+            transform.localPosition = new Vector2(transform.localPosition.x, transform.localPosition.y - 0.25f);
 
             // manipulate timeInterval to slow down spin
             // as i gets closer to randomValue, timeInterval increases
@@ -101,7 +101,7 @@ public class Row : MonoBehaviour
         }
 
         // calculate currently selected slot based on y position
-        switch (transform.position.y)
+        switch (transform.localPosition.y)
         {
             case -3.5f:
                 stoppedSlot = "Diamonds";
