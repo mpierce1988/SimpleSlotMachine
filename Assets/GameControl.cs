@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class GameControl : MonoBehaviour
 {
     public static event Action HandlePulled = delegate { };
 
     [SerializeField]
-    private Text prizeText;
+    private TextMeshProUGUI prizeText;
 
     [SerializeField]
     private Row[] rows;
