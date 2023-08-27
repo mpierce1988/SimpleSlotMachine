@@ -6,7 +6,8 @@ using System.Linq;
 
 public class GameControl : MonoBehaviour
 {
-    public static event Action OnStartSpin = delegate { };
+    public static event Action OnStartSpin;
+    public static event Action OnHandlePulled;
     public static event Action<int> PrizeWon;
 
     [SerializeField]
@@ -16,8 +17,6 @@ public class GameControl : MonoBehaviour
     private Transform handle;
 
     private int prizeValue;
-
-    private bool resultsChecked = true;
 
     private IInput input;
     private ICalculateScore scoreCalculator;
@@ -33,63 +32,65 @@ public class GameControl : MonoBehaviour
     private void Start()
     {
         if (input != null)
-            input.OnClick += HandleMouseClick;
+            input.OnClick += PullHandleIfAllRowsStopped;
 
         if (handleAnimator != null)
         {
-            handleAnimator.OnHandleAnimationApex += OnHandleApex;
+            handleAnimator.OnHandleAnimationApex += StartSpin;
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // If any of the three rows are not stopped, set values to 0/false
-        if (!AllRowsStopped())
+        foreach (Row row in rows)
         {
-            ResetPrizeValues();
-        }
-        else if (!resultsChecked)
-        {
-            prizeValue = scoreCalculator.CalculatePrize(rows);
-            PrizeWon?.Invoke(prizeValue);
-            //SetPrizeText();
-            resultsChecked = true;
+            row.OnSpinningEnd += CheckResults;
         }
     }
 
     private void OnDestroy()
     {
         if (input != null)
-            input.OnClick -= HandleMouseClick;
+            input.OnClick -= PullHandleIfAllRowsStopped;
 
         if (handleAnimator != null)
         {
-            handleAnimator.OnHandleAnimationApex -= OnHandleApex;
+            handleAnimator.OnHandleAnimationApex -= StartSpin;
+        }
+
+        foreach (Row row in rows)
+        {
+            row.OnSpinningEnd -= CheckResults;
         }
     }
 
-    private void HandleMouseClick()
+    #region Event Handlers    
+
+    private void PullHandleIfAllRowsStopped()
     {
         // If all rows are stopped, and mouse is clicked, then start spinning rows
         if (AllRowsStopped())
         {
             handleAnimator.PullHandle();
+            ResetPrizeValues();
+            OnHandlePulled?.Invoke();
         }
     }
 
-    #region Handle Animation and call event
-
-
-
-    private static void OnHandleApex()
+    private void StartSpin()
     {
-        OnStartSpin();
+        OnStartSpin?.Invoke();
+    }
+
+    private void CheckResults()
+    {
+        if (AllRowsStopped())
+        {
+            prizeValue = scoreCalculator.CalculatePrize(rows);
+            PrizeWon?.Invoke(prizeValue);
+        }
     }
 
     #endregion
 
-    #region Game State Checking
+    #region Game State
 
     // Game State
     private bool AllRowsStopped()
@@ -100,7 +101,6 @@ public class GameControl : MonoBehaviour
     private void ResetPrizeValues()
     {
         prizeValue = 0;
-        resultsChecked = false;
     }
 
     #endregion
