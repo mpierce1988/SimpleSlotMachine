@@ -8,32 +8,18 @@ public class RowMovement : MonoBehaviour, IMoveRow
     public event Action OnSpinningEnd;
 
     [SerializeField]
-    private int stepsPerSlot = 3;
-    [SerializeField]
-    private float startPosition = 2.59f;
-    [SerializeField]
-    private float bottomBoundary = -2.66f;
-    [SerializeField]
-    private int numSlots = 8;
+    private SlotData slotData;
 
     private float movementInterval = 0f;
 
     private void Start()
     {
-        movementInterval = GetMovementInterval(startPosition, bottomBoundary, numSlots);
+        movementInterval = GetMovementInterval();
     }
 
     public void StartRotating()
     {
         StartCoroutine(Rotate());
-    }
-
-    private float GetMovementInterval(float startPosition, float bottomBoundary, int numSlots)
-    {
-        float totalHeightOfSlots = startPosition - bottomBoundary;
-        float heightPerSlot = totalHeightOfSlots / (numSlots - 1); // subtract 1, last slot is repeat of first slot
-        float heightPerInterval = heightPerSlot / stepsPerSlot; // divide by number of steps between slots (3)
-        return heightPerInterval;
     }
 
     private IEnumerator Rotate()
@@ -42,7 +28,7 @@ public class RowMovement : MonoBehaviour, IMoveRow
         OnSpinningStart?.Invoke();
 
         // constant portion of spinning
-        for (int i = 0; i < 10 * stepsPerSlot; i++)
+        for (int i = 0; i < 10 * slotData.StepsPerSlot; i++)
         {
             MoveRowDown();
 
@@ -64,6 +50,16 @@ public class RowMovement : MonoBehaviour, IMoveRow
 
         OnSpinningEnd?.Invoke();
     }
+
+    private float GetMovementInterval()
+    {
+        float totalHeightOfSlots = slotData.StartPosition - slotData.BottomBoundary;
+        float heightPerSlot = totalHeightOfSlots / (slotData.SlotValues.Count - 1); // subtract 1, last slot is repeat of first slot
+        float heightPerInterval = heightPerSlot / slotData.StepsPerSlot; // divide by number of steps between slots (3)
+        return heightPerInterval;
+    }
+
+
 
     private float GetSlowTimeInterval(int i, int randomValueDivisibleBySteps)
     {
@@ -104,11 +100,11 @@ public class RowMovement : MonoBehaviour, IMoveRow
         // get random value between 60 and 100
         int randomValueDivisibleBySteps = UnityEngine.Random.Range(60, 100);
 
-        for (int i = 1; i < stepsPerSlot; i++)
+        for (int i = 1; i < slotData.StepsPerSlot; i++)
         {
-            if (randomValueDivisibleBySteps % stepsPerSlot == i)
+            if (randomValueDivisibleBySteps % slotData.StepsPerSlot == i)
             {
-                randomValueDivisibleBySteps += (stepsPerSlot - i);
+                randomValueDivisibleBySteps += (slotData.StepsPerSlot - i);
                 break;
             }
         }
@@ -127,9 +123,9 @@ public class RowMovement : MonoBehaviour, IMoveRow
 
     private void ResetRowIfBelowBoundary()
     {
-        if (transform.localPosition.y <= bottomBoundary)
+        if (transform.localPosition.y <= slotData.BottomBoundary)
         {
-            transform.localPosition = new Vector2(transform.localPosition.x, startPosition);
+            transform.localPosition = new Vector2(transform.localPosition.x, slotData.StartPosition);
         }
     }
 

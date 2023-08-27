@@ -111,10 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9aaa2e7399804607ae0fd434a796954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepsPerSlot: 3
-  startPosition: 2.59
-  bottomBoundary: -2.66
-  numSlots: 8
+  slotData: {fileID: 11400000, guid: 4ca198793f67d430982a73bb7d0f7b6e, type: 2}
 --- !u!114 &2747411426697232310
 MonoBehaviour:
   m_ObjectHideFlags: 0
