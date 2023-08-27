@@ -9,13 +9,13 @@ public class PrizeDisplay : MonoBehaviour
     private void Start()
     {
         GameControl.PrizeWon += SetPrizeText;
-        GameControl.OnStartSpin += ResetPrizeText;
+        GameControl.OnHandlePulled += ResetPrizeText;
     }
 
     private void OnDestroy()
     {
         GameControl.PrizeWon -= SetPrizeText;
-        GameControl.OnStartSpin -= ResetPrizeText;
+        GameControl.OnHandlePulled -= ResetPrizeText;
     }
 
     private void SetPrizeText(int prizeValue)
@@ -26,9 +26,7 @@ public class PrizeDisplay : MonoBehaviour
 
     private void ResetPrizeText()
     {
-        //prizeValue = 0;
         prizeText.enabled = false;
         prizeText.text = "";
-        //resultsChecked = false;
     }
 }
