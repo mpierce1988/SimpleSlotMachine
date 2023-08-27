@@ -77,13 +77,13 @@ public class ScoreCalculator : MonoBehaviour, ICalculateScore
 
     private bool IsDoubleMatch(string slotType)
     {
-        return (rows[0].stoppedSlot == slotType && rows[1].stoppedSlot == slotType)
-            || (rows[1].stoppedSlot == slotType && rows[2].stoppedSlot == slotType)
-            || (rows[0].stoppedSlot == slotType && rows[2].stoppedSlot == slotType);
+        return (rows[0].StoppedSlot == slotType && rows[1].StoppedSlot == slotType)
+            || (rows[1].StoppedSlot == slotType && rows[2].StoppedSlot == slotType)
+            || (rows[0].StoppedSlot == slotType && rows[2].StoppedSlot == slotType);
     }
 
     private bool IsThreeMatch(string slotType)
     {
-        return rows[0].stoppedSlot == slotType && rows[1].stoppedSlot == slotType && rows[2].stoppedSlot == slotType;
+        return rows[0].StoppedSlot == slotType && rows[1].StoppedSlot == slotType && rows[2].StoppedSlot == slotType;
     }
 }
