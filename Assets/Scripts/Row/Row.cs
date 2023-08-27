@@ -9,21 +9,11 @@ public class Row : MonoBehaviour
     public event Action OnSpinningStart;
     public event Action OnSpinningEnd;
 
-    [SerializeField]
-    private float bottomBoundary = 2f;
-    [SerializeField]
-    private float startPosition = 3f;
-    [SerializeField]
-    private int numSlots = 8;
-
-    //private int randomValueDivisibleBySteps;
-    private int stepsPerSlot = 3;
-    //private float timeInterval;
-    //private float movementInterval;
-
     private bool rowStopped = true;
+    private string stoppedSlot;
+
     public bool RowStopped => rowStopped;
-    public string stoppedSlot;
+    public string StoppedSlot => stoppedSlot;
 
     private IMoveRow rowMover;
     private ICalulateSlotValue slotValueCalculator;
@@ -37,14 +27,10 @@ public class Row : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         GameControl.OnStartSpin += StartRotating;
 
         rowMover.OnSpinningStart += SetStartSpinState;
         rowMover.OnSpinningEnd += SetEndSpinState;
-
-        // calculate movement per step. Divide steps per slot
-        //movementInterval = GetMovementInterval(startPosition, bottomBoundary, numSlots);
     }
 
     private void OnDestroy()
@@ -54,11 +40,14 @@ public class Row : MonoBehaviour
         rowMover.OnSpinningEnd -= SetEndSpinState;
     }
 
+    #region Event Handlers
+
     private void StartRotating()
     {
         rowMover.StartRotating();
     }
 
+    #endregion
 
     #region Row State
 

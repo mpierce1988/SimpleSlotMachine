@@ -135,3 +135,12 @@ MonoBehaviour:
   bottomBoundary: -2.66
   numSlots: 8
   stepsPerSlot: 3
+  slotValues:
+  - Diamond
+  - Crown
+  - Melon
+  - Bar
+  - Seven
+  - Cherry
+  - Lemon
+  - Diamond
