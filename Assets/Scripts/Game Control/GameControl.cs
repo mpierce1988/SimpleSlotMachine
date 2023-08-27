@@ -95,7 +95,7 @@ public class GameControl : MonoBehaviour
     // Game State
     private bool AllRowsStopped()
     {
-        return rows.All(row => row.rowStopped);
+        return rows.All(row => row.RowStopped);
     }
 
     private void ResetPrizeValues()
