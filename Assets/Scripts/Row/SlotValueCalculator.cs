@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SlotValueCalculator : MonoBehaviour, ICalulateSlotValue
 {
@@ -7,21 +8,21 @@ public class SlotValueCalculator : MonoBehaviour, ICalulateSlotValue
     [SerializeField]
     private float bottomBoundary;
     [SerializeField]
-    private int numSlots;
-    [SerializeField]
     private int stepsPerSlot = 3;
+    [SerializeField]
+    private List<string> slotValues;
 
     private float movementInterval;
 
     private void Start()
     {
-        movementInterval = GetMovementInterval(startPosition, bottomBoundary, numSlots);
+        movementInterval = GetMovementInterval();
     }
 
-    private float GetMovementInterval(float startPosition, float bottomBoundary, int numSlots)
+    private float GetMovementInterval()
     {
         float totalHeightOfSlots = startPosition - bottomBoundary;
-        float heightPerSlot = totalHeightOfSlots / (numSlots - 1); // subtract 1, last slot is repeat of first slot
+        float heightPerSlot = totalHeightOfSlots / (slotValues.Count - 1); // subtract 1 to get proper height
         float heightPerInterval = heightPerSlot / stepsPerSlot; // divide by number of steps between slots (3)
         return heightPerInterval;
     }
@@ -30,41 +31,14 @@ public class SlotValueCalculator : MonoBehaviour, ICalulateSlotValue
     {
         string stoppedSlot = "Unknown";
 
-        if (transform.localPosition.y == bottomBoundary)
+        for (int i = 0; i < slotValues.Count; i++)
         {
-            stoppedSlot = "Diamond";
-        }
-        else if (transform.localPosition.y == bottomBoundary + (movementInterval * 1 * stepsPerSlot))
-        {
-            stoppedSlot = "Crown";
-        }
-        else if (transform.localPosition.y == bottomBoundary + (movementInterval * 2 * stepsPerSlot))
-        {
-            stoppedSlot = "Melon";
-        }
-        else if (transform.localPosition.y == bottomBoundary + (movementInterval * 3 * stepsPerSlot))
-        {
-            stoppedSlot = "Bar";
-        }
-        else if (transform.localPosition.y == bottomBoundary + (movementInterval * 4 * stepsPerSlot))
-        {
-            stoppedSlot = "Seven";
-        }
-        else if (transform.localPosition.y == bottomBoundary + (movementInterval * 5 * stepsPerSlot))
-        {
-            stoppedSlot = "Cherry";
-        }
-        else if (transform.localPosition.y == bottomBoundary + (movementInterval * 6 * stepsPerSlot))
-        {
-            stoppedSlot = "Lemon";
-        }
-        else if (transform.localPosition.y == bottomBoundary + (movementInterval * 7 * stepsPerSlot))
-        {
-            stoppedSlot = "Diamond";
-        }
-        else
-        {
-            stoppedSlot = "Unknown";
+            float heightThreshold = bottomBoundary + (movementInterval * i * stepsPerSlot);
+            if (transform.localPosition.y == heightThreshold)
+            {
+                stoppedSlot = slotValues[i];
+                break;
+            }
         }
 
         return stoppedSlot;
