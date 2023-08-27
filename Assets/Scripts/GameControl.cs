@@ -8,6 +8,8 @@ using System.Linq;
 public class GameControl : MonoBehaviour
 {
     public static event Action HandlePulled = delegate { };
+    public static event Action<int> PrizeWon;
+
 
     [SerializeField]
     private TextMeshProUGUI prizeText;
@@ -20,7 +22,7 @@ public class GameControl : MonoBehaviour
 
     private int prizeValue;
 
-    private bool resultsChecked = false;
+    private bool resultsChecked = true;
 
     private IInput input;
     private ICalculateScore scoreCalculator;
@@ -50,7 +52,8 @@ public class GameControl : MonoBehaviour
             // rows have stopped, but results have not been checked yet
             //CheckResults();
             prizeValue = scoreCalculator.CalculatePrize(rows);
-            SetPrizeText();
+            PrizeWon?.Invoke(prizeValue);
+            //SetPrizeText();
             resultsChecked = true;
         }
     }
@@ -100,24 +103,12 @@ public class GameControl : MonoBehaviour
         return rows.All(row => row.rowStopped);
     }
 
-    #endregion
-
-
-    #region Text Display
-
-    // Text display
-    private void SetPrizeText()
-    {
-        prizeText.enabled = true;
-        prizeText.text = "Prize: " + prizeValue;
-    }
-
     private void ResetPrizeValues()
     {
         prizeValue = 0;
-        prizeText.enabled = false;
         resultsChecked = false;
     }
 
     #endregion
+
 }

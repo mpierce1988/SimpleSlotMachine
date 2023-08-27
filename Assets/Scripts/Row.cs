@@ -15,7 +15,7 @@ public class Row : MonoBehaviour
     private float timeInterval;
     public float movementInterval;
 
-    public bool rowStopped;
+    public bool rowStopped = false;
     public string stoppedSlot;
 
     // Start is called before the first frame update
