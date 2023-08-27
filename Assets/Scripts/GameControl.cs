@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class GameControl : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class GameControl : MonoBehaviour
     private TextMeshProUGUI prizeText;
 
     [SerializeField]
-    private Row[] rows;
+    private List<Row> rows;
 
     [SerializeField]
     private Transform handle;
@@ -21,27 +22,43 @@ public class GameControl : MonoBehaviour
 
     private bool resultsChecked = false;
 
+    private IInput input;
+
+    private void Awake()
+    {
+        input = GetComponent<IInput>();
+    }
+
+    private void Start()
+    {
+        if (input != null)
+            input.OnClick += HandleMouseClick;
+    }
 
     // Update is called once per frame
     void Update()
     {
         // If any of the three rows are not stopped, set values to 0/false
-        if (!rows[0].rowStopped || !rows[1].rowStopped || !rows[2].rowStopped)
+        if (!AllRowsStopped())
         {
-            prizeValue = 0;
-            prizeText.enabled = false;
-            resultsChecked = false;
+            ResetPrizeValues();
         }
         else if (!resultsChecked)
         {
             // rows have stopped, but results have not been checked yet
             CheckResults();
-            prizeText.enabled = true;
-            prizeText.text = "Prize: " + prizeValue;
+            SetPrizeText();
+            resultsChecked = true;
         }
     }
 
-    private void OnMouseDown()
+    private void OnDestroy()
+    {
+        if (input != null)
+            input.OnClick -= HandleMouseClick;
+    }
+
+    private void HandleMouseClick()
     {
         // If all rows are stopped, and mouse is clicked, then start spinning rows
         if (rows[0].rowStopped && rows[1].rowStopped && rows[2].rowStopped)
@@ -50,6 +67,40 @@ public class GameControl : MonoBehaviour
         }
     }
 
+    #region Handle Animation and call event
+
+    // Handle animation, call event at apex of animation
+    private IEnumerator PullHandle()
+    {
+        for (int i = 0; i < 15; i += 5)
+        {
+            handle.Rotate(0f, 0f, -i);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        HandlePulled();
+
+        for (int i = 0; i < 15; i += 5)
+        {
+            handle.Rotate(0f, 0f, i);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    #endregion
+
+    #region Game State Checking
+
+    // Game State
+    private bool AllRowsStopped()
+    {
+        return rows.All(row => row.rowStopped);
+    }
+
+    #endregion
+
+    #region Scoring
+    // Scoring
     private void CheckResults()
     {
         if (IsThreeMatch("Diamond"))
@@ -109,8 +160,8 @@ public class GameControl : MonoBehaviour
             prizeValue = 4000;
         }
 
-        resultsChecked = true;
     }
+
 
     private bool IsDoubleMatch(string slotType)
     {
@@ -124,20 +175,23 @@ public class GameControl : MonoBehaviour
         return rows[0].stoppedSlot == slotType && rows[1].stoppedSlot == slotType && rows[2].stoppedSlot == slotType;
     }
 
-    private IEnumerator PullHandle()
+    #endregion
+
+    #region Text Display
+
+    // Text display
+    private void SetPrizeText()
     {
-        for (int i = 0; i < 15; i += 5)
-        {
-            handle.Rotate(0f, 0f, -i);
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        HandlePulled();
-
-        for (int i = 0; i < 15; i += 5)
-        {
-            handle.Rotate(0f, 0f, i);
-            yield return new WaitForSeconds(0.1f);
-        }
+        prizeText.enabled = true;
+        prizeText.text = "Prize: " + prizeValue;
     }
+
+    private void ResetPrizeValues()
+    {
+        prizeValue = 0;
+        prizeText.enabled = false;
+        resultsChecked = false;
+    }
+
+    #endregion
 }
