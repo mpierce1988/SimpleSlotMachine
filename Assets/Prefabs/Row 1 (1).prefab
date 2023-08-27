@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5993691189995410451}
   - component: {fileID: 6767187080626002175}
   - component: {fileID: 590049488427940859}
+  - component: {fileID: 8480552566299593784}
+  - component: {fileID: 2747411426697232310}
   m_Layer: 0
   m_Name: Row 1 (1)
   m_TagString: Untagged
@@ -100,6 +102,36 @@ MonoBehaviour:
   bottomBoundary: -2.66
   startPosition: 2.59
   numSlots: 8
-  movementInterval: 0
-  rowStopped: 0
   stoppedSlot: 
+--- !u!114 &8480552566299593784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3524521490246115688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9aaa2e7399804607ae0fd434a796954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepsPerSlot: 3
+  startPosition: 2.59
+  bottomBoundary: -2.66
+  numSlots: 8
+--- !u!114 &2747411426697232310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3524521490246115688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d5b22a64c6864da7a012a6539caf0ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPosition: 2.59
+  bottomBoundary: -2.66
+  numSlots: 8
+  stepsPerSlot: 3
