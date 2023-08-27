@@ -99,10 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c14f7720e8c6477580018756f43e538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bottomBoundary: -2.66
-  startPosition: 2.59
-  numSlots: 8
-  stoppedSlot: 
 --- !u!114 &8480552566299593784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,16 +127,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d5b22a64c6864da7a012a6539caf0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPosition: 2.59
-  bottomBoundary: -2.66
-  numSlots: 8
-  stepsPerSlot: 3
-  slotValues:
-  - Diamond
-  - Crown
-  - Melon
-  - Bar
-  - Seven
-  - Cherry
-  - Lemon
-  - Diamond
+  slotData: {fileID: 11400000, guid: 4ca198793f67d430982a73bb7d0f7b6e, type: 2}

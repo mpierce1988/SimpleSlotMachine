@@ -4,39 +4,33 @@ using UnityEngine;
 public class SlotValueCalculator : MonoBehaviour, ICalulateSlotValue
 {
     [SerializeField]
-    private float startPosition;
-    [SerializeField]
-    private float bottomBoundary;
-    [SerializeField]
-    private int stepsPerSlot = 3;
-    [SerializeField]
-    private List<string> slotValues;
+    private SlotData slotData;
 
-    private float movementInterval;
+    private float stepHeight;
 
     private void Start()
     {
-        movementInterval = GetMovementInterval();
+        stepHeight = GetStepHeight();
     }
 
-    private float GetMovementInterval()
+    private float GetStepHeight()
     {
-        float totalHeightOfSlots = startPosition - bottomBoundary;
-        float heightPerSlot = totalHeightOfSlots / (slotValues.Count - 1); // subtract 1 to get proper height
-        float heightPerInterval = heightPerSlot / stepsPerSlot; // divide by number of steps between slots (3)
-        return heightPerInterval;
+        float totalHeightOfSlots = slotData.StartPosition - slotData.BottomBoundary;
+        float heightPerSlot = totalHeightOfSlots / (slotData.SlotValues.Count - 1); // subtract 1 to get proper height
+
+        return heightPerSlot;
     }
 
     public string GetCurrentSlot()
     {
         string stoppedSlot = "Unknown";
 
-        for (int i = 0; i < slotValues.Count; i++)
+        for (int i = 0; i < slotData.SlotValues.Count; i++)
         {
-            float heightThreshold = bottomBoundary + (movementInterval * i * stepsPerSlot);
+            float heightThreshold = slotData.BottomBoundary + (stepHeight * i);
             if (transform.localPosition.y == heightThreshold)
             {
-                stoppedSlot = slotValues[i];
+                stoppedSlot = slotData.SlotValues[i];
                 break;
             }
         }
