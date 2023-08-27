@@ -6,7 +6,7 @@ using System.Linq;
 
 public class GameControl : MonoBehaviour
 {
-    public static event Action HandlePulled = delegate { };
+    public static event Action OnStartSpin = delegate { };
     public static event Action<int> PrizeWon;
 
     [SerializeField]
@@ -21,17 +21,24 @@ public class GameControl : MonoBehaviour
 
     private IInput input;
     private ICalculateScore scoreCalculator;
+    private IAnimateHandle handleAnimator;
 
     private void Awake()
     {
         input = GetComponent<IInput>();
         scoreCalculator = GetComponent<ICalculateScore>();
+        handleAnimator = handle.GetComponent<IAnimateHandle>();
     }
 
     private void Start()
     {
         if (input != null)
             input.OnClick += HandleMouseClick;
+
+        if (handleAnimator != null)
+        {
+            handleAnimator.OnHandleAnimationApex += OnHandleApex;
+        }
     }
 
     // Update is called once per frame
@@ -44,8 +51,6 @@ public class GameControl : MonoBehaviour
         }
         else if (!resultsChecked)
         {
-            // rows have stopped, but results have not been checked yet
-            //CheckResults();
             prizeValue = scoreCalculator.CalculatePrize(rows);
             PrizeWon?.Invoke(prizeValue);
             //SetPrizeText();
@@ -57,35 +62,29 @@ public class GameControl : MonoBehaviour
     {
         if (input != null)
             input.OnClick -= HandleMouseClick;
+
+        if (handleAnimator != null)
+        {
+            handleAnimator.OnHandleAnimationApex -= OnHandleApex;
+        }
     }
 
     private void HandleMouseClick()
     {
         // If all rows are stopped, and mouse is clicked, then start spinning rows
-        if (rows[0].rowStopped && rows[1].rowStopped && rows[2].rowStopped)
+        if (AllRowsStopped())
         {
-            StartCoroutine("PullHandle");
+            handleAnimator.PullHandle();
         }
     }
 
     #region Handle Animation and call event
 
-    // Handle animation, call event at apex of animation
-    private IEnumerator PullHandle()
+
+
+    private static void OnHandleApex()
     {
-        for (int i = 0; i < 15; i += 5)
-        {
-            handle.Rotate(0f, 0f, -i);
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        HandlePulled();
-
-        for (int i = 0; i < 15; i += 5)
-        {
-            handle.Rotate(0f, 0f, i);
-            yield return new WaitForSeconds(0.1f);
-        }
+        OnStartSpin();
     }
 
     #endregion

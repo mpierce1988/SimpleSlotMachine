@@ -22,7 +22,7 @@ public class Row : MonoBehaviour
     void Start()
     {
         rowStopped = true;
-        GameControl.HandlePulled += StartRotating;
+        GameControl.OnStartSpin += StartRotating;
 
         // Remove one, last slot is repeat of first slot
         numSlots = numSlots - 1;
@@ -185,6 +185,6 @@ public class Row : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameControl.HandlePulled -= StartRotating;
+        GameControl.OnStartSpin -= StartRotating;
     }
 }

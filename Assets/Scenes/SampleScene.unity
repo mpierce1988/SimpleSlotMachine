@@ -433,7 +433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c174fd62ede4870863f24af3b20d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prizeText: {fileID: 1450583034}
   rows:
   - {fileID: 636385810}
   - {fileID: 4688774676655435481}
