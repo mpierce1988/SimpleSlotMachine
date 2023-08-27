@@ -1,9 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Row : MonoBehaviour
 {
+
+    public event Action OnSpinningStart;
+    public event Action OnSpinningEnd;
+
     [SerializeField]
     private float bottomBoundary = 2f;
     [SerializeField]
@@ -41,6 +46,7 @@ public class Row : MonoBehaviour
     {
         rowStopped = false;
         timeInterval = 0.025f;
+        OnSpinningStart?.Invoke();
 
         // constant portion of spinning
         for (int i = 0; i < 30; i++)
@@ -58,7 +64,7 @@ public class Row : MonoBehaviour
         }
 
         // get random value between 60 and 100
-        randomValue = Random.Range(60, 100);
+        randomValue = UnityEngine.Random.Range(60, 100);
 
         // ensure randomValue is divisible by 3
         // there are three steps between each slot
@@ -151,36 +157,8 @@ public class Row : MonoBehaviour
             stoppedSlot = "Unknown";
         }
 
-        //// calculate currently selected slot based on y position
-        //switch (transform.localPosition.y)
-        //{
-        //    case bottomBoundary:
-        //        stoppedSlot = "Diamonds";
-        //        break;
-        //    case (bottomBoundary + 2f):
-        //        stoppedSlot = "Crown";
-        //        break;
-        //    case -2f:
-        //        stoppedSlot = "Melon";
-        //        break;
-        //    case -1.25f:
-        //        stoppedSlot = "Bar";
-        //        break;
-        //    case -0.5f:
-        //        stoppedSlot = "Seven";
-        //        break;
-        //    case 0.25f:
-        //        stoppedSlot = "Cherry";
-        //        break;
-        //    case 1f:
-        //        stoppedSlot = "Lemon";
-        //        break;
-        //    case startPosition:
-        //        stoppedSlot = "Diamond";
-        //        break;
-        //}
-
         rowStopped = true;
+        OnSpinningEnd?.Invoke();
     }
 
     private void OnDestroy()
