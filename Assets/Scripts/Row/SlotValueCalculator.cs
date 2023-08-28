@@ -30,7 +30,7 @@ public class SlotValueCalculator : MonoBehaviour, ICalulateSlotValue
             float heightThreshold = slotData.BottomBoundary + (stepHeight * i);
             if (transform.localPosition.y == heightThreshold)
             {
-                stoppedSlot = slotData.SlotValues[i];
+                stoppedSlot = slotData.SlotValues[i].SlotName;
                 break;
             }
         }

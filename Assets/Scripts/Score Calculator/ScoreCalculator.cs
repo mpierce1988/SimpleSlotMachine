@@ -3,75 +3,42 @@ using UnityEngine;
 
 public class ScoreCalculator : MonoBehaviour, ICalculateScore
 {
+    [SerializeField]
+    private SlotData slotData;
     private List<Row> rows;
-    // Scoring
+
     public int CalculatePrize(List<Row> rowsToCalculate)
     {
         rows = rowsToCalculate;
         int prizeValue = 0;
-        if (IsThreeMatch("Diamond"))
+
+        // check for three match
+        foreach (SlotValue slotValue in slotData.SlotValues)
         {
-            prizeValue = 200;
+            if (IsThreeMatch(slotValue.SlotName))
+            {
+                prizeValue = slotValue.TripleMatchValue;
+                break;
+            }
         }
-        else if (IsThreeMatch("Crown"))
+
+        // If we found a three match, return the prize value
+        if (prizeValue > 0)
         {
-            prizeValue = 600;
+            return prizeValue;
         }
-        else if (IsThreeMatch("Melon"))
+
+        // Check for a double match
+        foreach (SlotValue slotValue in slotData.SlotValues)
         {
-            prizeValue = 1000;
-        }
-        else if (IsThreeMatch("Bar"))
-        {
-            prizeValue = 1500;
-        }
-        else if (IsThreeMatch("Seven"))
-        {
-            prizeValue = 2000;
-        }
-        else if (IsThreeMatch("Cherry"))
-        {
-            prizeValue = 4000;
-        }
-        else if (IsThreeMatch("Lemon"))
-        {
-            prizeValue = 8000;
-        }
-        else if (IsDoubleMatch("Diamond"))
-        {
-            prizeValue = 100;
-        }
-        else if (IsDoubleMatch("Crown"))
-        {
-            prizeValue = 300;
-        }
-        else if (IsDoubleMatch("Melon"))
-        {
-            prizeValue = 500;
-        }
-        else if (IsDoubleMatch("Bar"))
-        {
-            prizeValue = 700;
-        }
-        else if (IsDoubleMatch("Seven"))
-        {
-            prizeValue = 1000;
-        }
-        else if (IsDoubleMatch("Cherry"))
-        {
-            prizeValue = 2000;
-        }
-        else if (IsDoubleMatch("Lemon"))
-        {
-            prizeValue = 4000;
-        }
-        else
-        {
-            prizeValue = 0;
+            if (IsDoubleMatch(slotValue.SlotName))
+            {
+                prizeValue = slotValue.DoubleMatchValue;
+                break;
+            }
         }
 
         return prizeValue;
-
     }
 
 

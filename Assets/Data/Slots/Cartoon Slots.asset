@@ -16,11 +16,27 @@ MonoBehaviour:
   bottomBoundary: -2.66
   stepsPerSlot: 3
   slotValues:
-  - Diamond
-  - Crown
-  - Melon
-  - Bar
-  - Seven
-  - Cherry
-  - Lemon
-  - Diamond
+  - SlotName: Diamond
+    DoubleMatchValue: 100
+    TripleMatchValue: 200
+  - SlotName: Crown
+    DoubleMatchValue: 300
+    TripleMatchValue: 600
+  - SlotName: Melon
+    DoubleMatchValue: 500
+    TripleMatchValue: 1000
+  - SlotName: Bar
+    DoubleMatchValue: 700
+    TripleMatchValue: 1500
+  - SlotName: Seven
+    DoubleMatchValue: 1000
+    TripleMatchValue: 2000
+  - SlotName: Cherry
+    DoubleMatchValue: 2000
+    TripleMatchValue: 4000
+  - SlotName: Lemon
+    DoubleMatchValue: 4000
+    TripleMatchValue: 8000
+  - SlotName: Diamond
+    DoubleMatchValue: 200
+    TripleMatchValue: 400

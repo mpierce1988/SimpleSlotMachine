@@ -15,10 +15,21 @@ public class SlotData : ScriptableObject
     private int stepsPerSlot;
 
     [SerializeField]
-    private List<string> slotValues;
+    private List<SlotValue> slotValues;
 
     public float StartPosition => startPosition;
     public float BottomBoundary => bottomBoundary;
     public int StepsPerSlot => stepsPerSlot;
-    public List<string> SlotValues => slotValues;
+    public List<SlotValue> SlotValues => slotValues;
+}
+
+[System.Serializable]
+public struct SlotValue
+{
+    [SerializeField]
+    public string SlotName;
+    [SerializeField]
+    public int DoubleMatchValue;
+    [SerializeField]
+    public int TripleMatchValue;
 }
