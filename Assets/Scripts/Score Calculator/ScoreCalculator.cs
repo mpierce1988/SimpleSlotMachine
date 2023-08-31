@@ -1,10 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ScoreCalculator : MonoBehaviour, ICalculateScore
 {
     [SerializeField]
     private SlotData slotData;
+
+    [SerializeField]
+    private List<MatchStrategy> matchingStrategies;
+
     private List<Row> rows;
 
     public int CalculatePrize(List<Row> rowsToCalculate)
@@ -12,45 +17,28 @@ public class ScoreCalculator : MonoBehaviour, ICalculateScore
         rows = rowsToCalculate;
         int prizeValue = 0;
 
-        // check for three match
-        foreach (SlotValue slotValue in slotData.SlotValues)
+        // for each strategy, try to find a match
+        foreach (MatchStrategy strategy in matchingStrategies)
         {
-            if (IsThreeMatch(slotValue.SlotName))
+            if (strategy.TryGetMatch(rows, slotData, out string match))
             {
-                prizeValue = slotValue.TripleMatchValue;
-                break;
-            }
-        }
+                // a match was found
+                // get slot value
+                SlotValue slotValue = slotData.SlotValues.Find(s => s.SlotName == match);
 
-        // If we found a three match, return the prize value
-        if (prizeValue > 0)
-        {
-            return prizeValue;
-        }
+                // find index of this strategy
+                MatchStrategy matchingSlotDataStrategy = slotValue.MatchStrategies.Where(s => s.GetType() == strategy.GetType()).FirstOrDefault();
 
-        // Check for a double match
-        foreach (SlotValue slotValue in slotData.SlotValues)
-        {
-            if (IsDoubleMatch(slotValue.SlotName))
-            {
-                prizeValue = slotValue.DoubleMatchValue;
+                int indexOfStrategy = slotValue.MatchStrategies.IndexOf(matchingSlotDataStrategy);
+
+                // get point value from slotValue
+                prizeValue = slotValue.PrizeValues[indexOfStrategy];
                 break;
             }
         }
 
         return prizeValue;
     }
-
-
-    private bool IsDoubleMatch(string slotType)
-    {
-        return (rows[0].StoppedSlot == slotType && rows[1].StoppedSlot == slotType)
-            || (rows[1].StoppedSlot == slotType && rows[2].StoppedSlot == slotType)
-            || (rows[0].StoppedSlot == slotType && rows[2].StoppedSlot == slotType);
-    }
-
-    private bool IsThreeMatch(string slotType)
-    {
-        return rows[0].StoppedSlot == slotType && rows[1].StoppedSlot == slotType && rows[2].StoppedSlot == slotType;
-    }
 }
+
+

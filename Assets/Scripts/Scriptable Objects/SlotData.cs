@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Slot Data", menuName = "Data/Slot Data")]
@@ -29,7 +30,7 @@ public struct SlotValue
     [SerializeField]
     public string SlotName;
     [SerializeField]
-    public int DoubleMatchValue;
+    public List<MatchStrategy> MatchStrategies;
     [SerializeField]
-    public int TripleMatchValue;
+    public List<int> PrizeValues;
 }
