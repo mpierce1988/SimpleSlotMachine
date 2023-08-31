@@ -21,12 +21,14 @@ public class GameControl : MonoBehaviour
     private IInput input;
     private ICalculateScore scoreCalculator;
     private IAnimateHandle handleAnimator;
+    private IGameManager gameManager;
 
     private void Awake()
     {
         input = GetComponent<IInput>();
         scoreCalculator = GetComponent<ICalculateScore>();
         handleAnimator = handle.GetComponent<IAnimateHandle>();
+        gameManager = GetComponent<IGameManager>();
     }
 
     private void Start()
@@ -76,7 +78,11 @@ public class GameControl : MonoBehaviour
 
     private void StartSpin()
     {
-        OnStartSpin?.Invoke();
+        if (gameManager.CanPlayRound())
+        {
+            gameManager.PlayRound();
+            OnStartSpin?.Invoke();
+        }
     }
 
     private void CheckResults()
@@ -84,6 +90,7 @@ public class GameControl : MonoBehaviour
         if (AllRowsStopped())
         {
             prizeValue = scoreCalculator.CalculatePrize(rows);
+            gameManager.WinPrize(prizeValue);
             PrizeWon?.Invoke(prizeValue);
         }
     }
