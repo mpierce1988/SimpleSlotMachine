@@ -523,6 +523,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotData: {fileID: 11400000, guid: 4ca198793f67d430982a73bb7d0f7b6e, type: 2}
+  matchingStrategies:
+  - {fileID: 11400000, guid: f8c6fea22bb9e4626967f6493ac5d18a, type: 2}
+  - {fileID: 11400000, guid: 718f9304abaa2415fa897073bb219c9a, type: 2}
 --- !u!1 &1450583032
 GameObject:
   m_ObjectHideFlags: 0

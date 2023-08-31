@@ -17,26 +17,42 @@ MonoBehaviour:
   stepsPerSlot: 3
   slotValues:
   - SlotName: Diamond
-    DoubleMatchValue: 100
-    TripleMatchValue: 200
+    MatchStrategies:
+    - {fileID: 11400000, guid: f8c6fea22bb9e4626967f6493ac5d18a, type: 2}
+    - {fileID: 11400000, guid: 718f9304abaa2415fa897073bb219c9a, type: 2}
+    PrizeValues: c800000064000000
   - SlotName: Crown
-    DoubleMatchValue: 300
-    TripleMatchValue: 600
+    MatchStrategies:
+    - {fileID: 11400000, guid: f8c6fea22bb9e4626967f6493ac5d18a, type: 2}
+    - {fileID: 11400000, guid: 718f9304abaa2415fa897073bb219c9a, type: 2}
+    PrizeValues: 900100002c010000
   - SlotName: Melon
-    DoubleMatchValue: 500
-    TripleMatchValue: 1000
+    MatchStrategies:
+    - {fileID: 11400000, guid: f8c6fea22bb9e4626967f6493ac5d18a, type: 2}
+    - {fileID: 11400000, guid: 718f9304abaa2415fa897073bb219c9a, type: 2}
+    PrizeValues: 58020000f4010000
   - SlotName: Bar
-    DoubleMatchValue: 700
-    TripleMatchValue: 1500
+    MatchStrategies:
+    - {fileID: 11400000, guid: f8c6fea22bb9e4626967f6493ac5d18a, type: 2}
+    - {fileID: 11400000, guid: 718f9304abaa2415fa897073bb219c9a, type: 2}
+    PrizeValues: 20030000bc020000
   - SlotName: Seven
-    DoubleMatchValue: 1000
-    TripleMatchValue: 2000
+    MatchStrategies:
+    - {fileID: 11400000, guid: f8c6fea22bb9e4626967f6493ac5d18a, type: 2}
+    - {fileID: 11400000, guid: 718f9304abaa2415fa897073bb219c9a, type: 2}
+    PrizeValues: dc050000e8030000
   - SlotName: Cherry
-    DoubleMatchValue: 2000
-    TripleMatchValue: 4000
+    MatchStrategies:
+    - {fileID: 11400000, guid: f8c6fea22bb9e4626967f6493ac5d18a, type: 2}
+    - {fileID: 11400000, guid: 718f9304abaa2415fa897073bb219c9a, type: 2}
+    PrizeValues: b80b0000d0070000
   - SlotName: Lemon
-    DoubleMatchValue: 4000
-    TripleMatchValue: 8000
+    MatchStrategies:
+    - {fileID: 11400000, guid: f8c6fea22bb9e4626967f6493ac5d18a, type: 2}
+    - {fileID: 11400000, guid: 718f9304abaa2415fa897073bb219c9a, type: 2}
+    PrizeValues: 88130000a00f0000
   - SlotName: Diamond
-    DoubleMatchValue: 200
-    TripleMatchValue: 400
+    MatchStrategies:
+    - {fileID: 11400000, guid: f8c6fea22bb9e4626967f6493ac5d18a, type: 2}
+    - {fileID: 11400000, guid: 718f9304abaa2415fa897073bb219c9a, type: 2}
+    PrizeValues: c800000064000000
